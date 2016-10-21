@@ -422,7 +422,7 @@ var resizePizzas = function(size) {
   changeSliderLabel(size);
 
 
-  // Iterates through pizza elements on the page and changes their widths
+  // Changes made come from the class Quiz Stop FSL
    function changePizzaSizes(size) {
   switch(size) {
     case "1":
@@ -440,8 +440,8 @@ var resizePizzas = function(size) {
 
 var randomPizzas = document.getElementsByClassName("randomPizzaContainer");
 
-for (var i = 0, len = randomPizzas.length; i < len; i++) {
-      randomPizzas[i].style.width = newWidth + "%";
+for (var i = 0; i < randomPizzas.length; i++) {
+  randomPizzas[i].style.width = newWidth + "%";
  }
 }
   
@@ -487,14 +487,20 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 // Moves the sliding background pizzas based on scroll position
 
+// Took this out of the loop
 var items = document.getElementsByClassName('mover');
 
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
+
+  //This calculates the scrollTop before the loop so that there is no query to the DOM each time the loop runs
   var scrollPosition = document.body.scrollTop / 1250;
 
+  //create var 'len' and 'phase' inside the loop initialization to make it more efficient
   for (var i = 0, len = items.length, phase; i < len; i++) {
+
+  //Replaced with this line with var scrollPosition that is now not part of this loop:
     var phase = Math.sin((scrollPosition) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
@@ -516,9 +522,10 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
+  //Created this var before the loop to get rid of the querySelector in the loop
   var movingPizzas = document.getElementById('movingPizzas1');
-  var intViewportWidth = window.innerWidth;
 
+  // per suggestion from the forums changed the number of pizzas from 200 to 24, also placed the var 'elem' in the loop initialization for efficiency
   for (var i = 0, elem; i < 24; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
